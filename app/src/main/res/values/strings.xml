@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sparkle</string>
+    <string name="feeds">Feeds</string>
+    <string name="activities">Activities</string>
+    <string name="community">Community</string>
+    <string name="chats">Chats</string>
+    <string name="account">Account</string>
+</resources>
