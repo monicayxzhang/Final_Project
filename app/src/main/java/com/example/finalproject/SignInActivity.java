@@ -13,8 +13,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private FirebaseAuth mAuth;
@@ -23,44 +24,30 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_in);
 
-        email = findViewById(R.id.email_edittext);
-        password = findViewById(R.id.password_edittext);
+        email = findViewById(R.id.email_edittext_in);
+        password = findViewById(R.id.password_edittext_in);
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-            startMainActivity();
-        }
     }
 
-    public void startSignInActivity(View view) {
-        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-        startActivity(intent);
-    }
-
-    public void signUp(View view) {
-        mAuth.createUserWithEmailAndPassword(email.getText().toString(),
+    public void signIn(View view) {
+        mAuth.signInWithEmailAndPassword(email.getText().toString(),
                         password.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(SignUpActivity.this, "Account created",
-                                    Toast.LENGTH_SHORT).show();
-                            startMainActivity();
+                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                            //intent.putExtra("user", mAuth.getCurrentUser());
+                            startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                            Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-    }
-
-    public void startMainActivity() {
-        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-        //intent.putExtra("user", mAuth.getCurrentUser());
-        startActivity(intent);
     }
 }
