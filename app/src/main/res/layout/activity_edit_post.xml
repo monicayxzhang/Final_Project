@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.community.EditPostActivity">
+
+    <EditText
+        android:id="@+id/post_subject"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="Subject"
+        android:inputType="textLongMessage"
+        app:layout_constraintBottom_toTopOf="@+id/post_body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/post_body"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:ems="10"
+        android:hint="Body"
+        android:inputType="textMultiLine|textLongMessage"
+        app:layout_constraintBottom_toTopOf="@id/post_linear_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_subject" />
+
+    <LinearLayout
+        android:id="@+id/post_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="110dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/post_body">
+
+        <Button
+            android:id="@+id/post_button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Post"
+            app:layout_constraintBottom_toTopOf="@+id/cancel_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_body" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:onClick="cancelPost"
+            android:text="Cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_button" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,7 @@ public class AccountFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         userText = view.findViewById(R.id.user_email);
-        userText.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        userText.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         return view;
     }
 

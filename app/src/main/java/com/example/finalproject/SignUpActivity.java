@@ -13,19 +13,23 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText email;
+    private EditText name;
     private EditText password;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         setContentView(R.layout.activity_sign_up);
 
         email = findViewById(R.id.email_edittext);
+        name = findViewById(R.id.name_edittext);
         password = findViewById(R.id.password_edittext);
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
@@ -48,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(SignUpActivity.this, "Account created",
                                     Toast.LENGTH_SHORT).show();
+                            updateName(mAuth.getCurrentUser());
                             startMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -62,5 +67,12 @@ public class SignUpActivity extends AppCompatActivity {
         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
         //intent.putExtra("user", mAuth.getCurrentUser());
         startActivity(intent);
+    }
+
+    private void updateName(FirebaseUser user) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name.getText().toString())
+                .build();
+        user.updateProfile(profileUpdates);
     }
 }
