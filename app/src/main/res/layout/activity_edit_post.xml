@@ -44,6 +44,7 @@
             android:id="@+id/post_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:onClick="submitPost"
             android:text="Post"
             app:layout_constraintBottom_toTopOf="@+id/cancel_button"
             app:layout_constraintEnd_toEndOf="parent"
