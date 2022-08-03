@@ -6,10 +6,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject.R;
 import com.example.finalproject.ui.community.Post;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -29,7 +36,21 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Post post) {
-        userTV.setText(post.user);
+        Query query = FirebaseDatabase.getInstance().getReference()
+                .child("users").orderByKey().equalTo(post.user);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot userSnapshot: snapshot.getChildren()) {
+                    userTV.setText(userSnapshot.child("name").getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         subjectTV.setText(post.subject);
         bodyTV.setText(post.body);
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd HH:mm");
