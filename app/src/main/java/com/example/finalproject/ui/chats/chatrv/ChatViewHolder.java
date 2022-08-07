@@ -1,17 +1,13 @@
-package com.example.finalproject.ui.community.postrv;
-
-import static java.text.DateFormat.getDateTimeInstance;
+package com.example.finalproject.ui.chats.chatrv;
 
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject.R;
-import com.example.finalproject.ui.community.Post;
-import com.google.firebase.database.ChildEventListener;
+import com.example.finalproject.ui.chats.Chat;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,26 +15,24 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class PostViewHolder extends RecyclerView.ViewHolder {
+public class ChatViewHolder extends RecyclerView.ViewHolder {
     private TextView userTV;
-    private TextView subjectTV;
-    private TextView bodyTV;
+    private TextView messageTV;
     private TextView dateTimeTV;
 
-    public PostViewHolder(@NonNull View itemView) {
+    public ChatViewHolder(@NonNull View itemView) {
         super(itemView);
-        userTV = itemView.findViewById(R.id.item_post_user);
-        subjectTV = itemView.findViewById(R.id.item_post_subject);
-        bodyTV = itemView.findViewById(R.id.item_post_body);
-        dateTimeTV = itemView.findViewById(R.id.item_post_dateTime);
+
+        userTV = itemView.findViewById(R.id.chat_user);
+        messageTV = itemView.findViewById(R.id.chat_message);
+        dateTimeTV = itemView.findViewById(R.id.chat_time);
     }
 
-    public void bind(Post post) {
+    public void bind(Chat chat) {
         Query query = FirebaseDatabase.getInstance().getReference()
-                .child("users").orderByKey().equalTo(post.user);
+                .child("users").orderByKey().equalTo(chat.user);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -52,10 +46,9 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
             }
         });
-        subjectTV.setText(post.subject);
-        bodyTV.setText(post.body);
+
+        messageTV.setText(chat.message);
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd HH:mm");
-        dateTimeTV.setText(formatter.format(new Date(post.dateTime)));
+        dateTimeTV.setText(formatter.format(new Date(chat.dateTime)));
     }
 }

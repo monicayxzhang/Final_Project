@@ -79,11 +79,6 @@ public class CommunityFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
     private void editPost() {
         Intent intent = new Intent(getActivity(), EditPostActivity.class);
         startActivity(intent);

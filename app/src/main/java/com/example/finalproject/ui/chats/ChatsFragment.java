@@ -7,32 +7,85 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.finalproject.R;
+import com.example.finalproject.ui.chats.chatrv.ChatAdapter;
+import com.example.finalproject.ui.community.Post;
+import com.example.finalproject.ui.community.postrv.PostAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ChatsFragment extends Fragment {
-
-    private ChatsViewModel mViewModel;
-
-    public static ChatsFragment newInstance() {
-        return new ChatsFragment();
-    }
+    private List<Chat> chats = new ArrayList<>();
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_chats, container, false);
+        View view = inflater.inflate(R.layout.fragment_chats, container, false);
+
+        RecyclerView recyclerView = view.findViewById(R.id.rv_chats);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        ChatAdapter adapter = new ChatAdapter(chats);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),
+                DividerItemDecoration.VERTICAL));
+
+        mAuth = FirebaseAuth.getInstance();
+        Query query = FirebaseDatabase.getInstance().getReference().child("chats")
+                .child(mAuth.getCurrentUser().getUid()).orderByChild("dateTime");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    collectChats(snapshot);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ChatsViewModel.class);
-        // TODO: Use the ViewModel
+    private void collectChats(DataSnapshot snapshot) {
+        List<DataSnapshot> listSnapshot = reverseChildren(snapshot.getChildren());
+        for (DataSnapshot chatSnapshot : listSnapshot) {
+            chats.add(new Chat(chatSnapshot.getKey(),
+                    (String) chatSnapshot.child("message").getValue(),
+                    (Long) chatSnapshot.child("dateTime").getValue()));
+        }
     }
 
+    private List<DataSnapshot> reverseChildren(Iterable<DataSnapshot> children) {
+        List<DataSnapshot> list = new LinkedList<>();
+        for (DataSnapshot snapshot : children) {
+            list.add(0, snapshot);
+        }
+        return list;
+    }
 }

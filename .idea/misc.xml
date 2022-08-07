@@ -14,10 +14,12 @@
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.1983695652173913" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.13229166666666667" />
+        <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.125" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1802536231884058" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1802536231884058" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1802536231884058" />
+        <entry key="app/src/main/res/layout/item_chat.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.26145833333333335" />
         <entry key="app/src/main/res/menu/toolbar_community_menu.xml" value="0.13229166666666667" />
