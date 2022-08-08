@@ -25,6 +25,7 @@
         android:ems="10"
         android:hint="Body"
         android:inputType="textMultiLine|textLongMessage"
+        android:gravity="top"
         app:layout_constraintBottom_toTopOf="@id/post_linear_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject.R;
@@ -14,9 +15,11 @@ import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
     private List<Chat> chats;
+    private Fragment fragment;
 
-    public ChatAdapter(List<Chat> chats) {
+    public ChatAdapter(List<Chat> chats, Fragment fragment) {
         this.chats = chats;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -28,7 +31,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        holder.bind(chats.get(position));
+        holder.bind(chats.get(position), (ChatViewHolder.OnItemClickListener) fragment);
     }
 
     @Override

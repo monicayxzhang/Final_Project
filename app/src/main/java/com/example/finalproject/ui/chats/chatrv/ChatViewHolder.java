@@ -18,6 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ChatViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener {
+        void onItemClick(Chat chat);
+    }
+
     private TextView userTV;
     private TextView messageTV;
     private TextView dateTimeTV;
@@ -30,7 +34,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         dateTimeTV = itemView.findViewById(R.id.chat_time);
     }
 
-    public void bind(Chat chat) {
+    public void bind(Chat chat, OnItemClickListener listener) {
         Query query = FirebaseDatabase.getInstance().getReference()
                 .child("users").orderByKey().equalTo(chat.user);
         query.addValueEventListener(new ValueEventListener() {
@@ -50,5 +54,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         messageTV.setText(chat.message);
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
         dateTimeTV.setText(formatter.format(new Date(chat.dateTime)));
+
+        itemView.setOnClickListener(v -> listener.onItemClick(chat));
     }
 }

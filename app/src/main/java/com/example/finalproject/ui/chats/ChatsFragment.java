@@ -2,6 +2,7 @@ package com.example.finalproject.ui.chats;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.finalproject.MainActivity;
 import com.example.finalproject.R;
+import com.example.finalproject.SignUpActivity;
 import com.example.finalproject.ui.chats.chatrv.ChatAdapter;
+import com.example.finalproject.ui.chats.chatrv.ChatViewHolder;
 import com.example.finalproject.ui.community.Post;
 import com.example.finalproject.ui.community.postrv.PostAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +36,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ChatsFragment extends Fragment {
+public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClickListener {
     private List<Chat> chats = new ArrayList<>();
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -45,7 +49,7 @@ public class ChatsFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.rv_chats);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        ChatAdapter adapter = new ChatAdapter(chats);
+        ChatAdapter adapter = new ChatAdapter(chats, this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),
@@ -87,5 +91,12 @@ public class ChatsFragment extends Fragment {
             list.add(0, snapshot);
         }
         return list;
+    }
+
+    @Override
+    public void onItemClick(Chat chat) {
+        Intent intent = new Intent(getActivity(), MessageActivity.class);
+        intent.putExtra("recipient", chat.user);
+        startActivity(intent);
     }
 }
