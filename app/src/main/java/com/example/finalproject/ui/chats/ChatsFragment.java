@@ -1,7 +1,5 @@
 package com.example.finalproject.ui.chats;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,13 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.finalproject.MainActivity;
 import com.example.finalproject.R;
-import com.example.finalproject.SignUpActivity;
 import com.example.finalproject.ui.chats.chatrv.ChatAdapter;
 import com.example.finalproject.ui.chats.chatrv.ChatViewHolder;
-import com.example.finalproject.ui.community.Post;
-import com.example.finalproject.ui.community.postrv.PostAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,14 +26,17 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClickListener {
-    private List<Chat> chats = new ArrayList<>();
-    private DatabaseReference mDatabase;
+    private List<Chat> chats = new LinkedList<>();
     private FirebaseAuth mAuth;
+    private Map<String, Chat> map = new HashMap<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -56,9 +53,9 @@ public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClic
                 DividerItemDecoration.VERTICAL));
 
         mAuth = FirebaseAuth.getInstance();
-        Query query = FirebaseDatabase.getInstance().getReference().child("chats")
-                .child(mAuth.getCurrentUser().getUid()).orderByChild("dateTime");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("chats")
+                .child(mAuth.getCurrentUser().getUid());
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -78,11 +75,23 @@ public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClic
 
     private void collectChats(DataSnapshot snapshot) {
         List<DataSnapshot> listSnapshot = reverseChildren(snapshot.getChildren());
+        Set<String> userSetCur = new HashSet<>();
+        List<Chat> newChats = new LinkedList<>();
         for (DataSnapshot chatSnapshot : listSnapshot) {
-            chats.add(new Chat(chatSnapshot.getKey(),
-                    (String) chatSnapshot.child("message").getValue(),
-                    (Long) chatSnapshot.child("dateTime").getValue()));
+            String user = (String) chatSnapshot.child("recipient").getValue();
+            if (!userSetCur.contains(user)) {
+                if (map.containsKey(user)) {
+                    newChats.add(new Chat(user, (String) chatSnapshot.child("message").getValue(),
+                            (Long) chatSnapshot.child("dateTime").getValue()));
+                    chats.remove(map.get(user));
+                } else {
+                    chats.add(new Chat(user, (String) chatSnapshot.child("message").getValue(),
+                            (Long) chatSnapshot.child("dateTime").getValue()));
+                }
+                userSetCur.add(user);
+            }
         }
+        chats.addAll(0, newChats);
     }
 
     private List<DataSnapshot> reverseChildren(Iterable<DataSnapshot> children) {
@@ -96,7 +105,7 @@ public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClic
     @Override
     public void onItemClick(Chat chat) {
         Intent intent = new Intent(getActivity(), MessageActivity.class);
-        intent.putExtra("recipient", chat.user);
+        intent.putExtra("recipient", chat.recipient);
         startActivity(intent);
     }
 }

@@ -36,7 +36,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Chat chat, OnItemClickListener listener) {
         Query query = FirebaseDatabase.getInstance().getReference()
-                .child("users").orderByKey().equalTo(chat.user);
+                .child("users").orderByKey().equalTo(chat.recipient);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

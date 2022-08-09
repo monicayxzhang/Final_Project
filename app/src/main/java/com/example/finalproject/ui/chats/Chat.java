@@ -1,7 +1,7 @@
 package com.example.finalproject.ui.chats;
 
 public class Chat {
-    public String user;
+    public String recipient;
     public String message;
     public long dateTime;
 
@@ -9,8 +9,8 @@ public class Chat {
 
     }
 
-    public Chat(String user, String message, long dateTime) {
-        this.user = user;
+    public Chat(String recipient, String message, long dateTime) {
+        this.recipient = recipient;
         this.message = message;
         this.dateTime = dateTime;
     }

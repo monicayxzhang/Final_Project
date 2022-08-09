@@ -26,6 +26,7 @@
             android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:contentDescription="back to chats"
+            android:onClick="goBack"
             android:src="?attr/actionModeCloseDrawable"
             app:tint="@color/white">
 
@@ -92,6 +93,7 @@
             android:layout_gravity="center"
             android:background="@color/yellow_dark"
             android:contentDescription="send the message"
+            android:onClick="sentMessage"
             android:padding="5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/send"
