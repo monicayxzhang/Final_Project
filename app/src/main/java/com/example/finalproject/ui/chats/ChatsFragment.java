@@ -18,6 +18,7 @@ import com.example.finalproject.R;
 import com.example.finalproject.ui.chats.chatrv.ChatAdapter;
 import com.example.finalproject.ui.chats.chatrv.ChatViewHolder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,13 +56,33 @@ public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClic
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("chats")
                 .child(mAuth.getCurrentUser().getUid());
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()) {
-                    collectChats(snapshot);
-                    adapter.notifyDataSetChanged();
+                    Message message = snapshot.getValue(Message.class);
+                    if (map.containsKey(message.recipient)) {
+                        chats.remove(map.get(message.recipient));
+                    }
+                    map.put(message.recipient, message);
+                    chats.add(0, message);
                 }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
@@ -71,33 +92,6 @@ public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClic
         });
 
         return view;
-    }
-
-    private void collectChats(DataSnapshot snapshot) {
-        List<DataSnapshot> listSnapshot = reverseChildren(snapshot.getChildren());
-        Set<String> userSetCur = new HashSet<>();
-        List<Message> newChats = new LinkedList<>();
-        for (DataSnapshot chatSnapshot : listSnapshot) {
-            String user = (String) chatSnapshot.child("recipient").getValue();
-            if (!userSetCur.contains(user)) {
-                if (map.containsKey(user)) {
-                    newChats.add(chatSnapshot.getValue(Message.class));
-                    chats.remove(map.get(user));
-                } else {
-                    chats.add(chatSnapshot.getValue(Message.class));
-                }
-                userSetCur.add(user);
-            }
-        }
-        chats.addAll(0, newChats);
-    }
-
-    private List<DataSnapshot> reverseChildren(Iterable<DataSnapshot> children) {
-        List<DataSnapshot> list = new LinkedList<>();
-        for (DataSnapshot snapshot : children) {
-            list.add(0, snapshot);
-        }
-        return list;
     }
 
     @Override

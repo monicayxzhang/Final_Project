@@ -21,6 +21,7 @@ import com.example.finalproject.MainActivity;
 import com.example.finalproject.R;
 import com.example.finalproject.SignInActivity;
 import com.example.finalproject.ui.community.postrv.PostAdapter;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,13 +62,28 @@ public class CommunityFragment extends Fragment {
                 DividerItemDecoration.VERTICAL));
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()) {
-                    collectPosts(snapshot);
-                    adapter.notifyDataSetChanged();
+                    posts.add(0, snapshot.getValue(Post.class));
+                    adapter.notifyItemInserted(0);
                 }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
@@ -82,11 +98,5 @@ public class CommunityFragment extends Fragment {
     private void editPost() {
         Intent intent = new Intent(getActivity(), EditPostActivity.class);
         startActivity(intent);
-    }
-
-    private void collectPosts(DataSnapshot snapshot) {
-        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-            posts.add(0, postSnapshot.getValue(Post.class));
-        }
     }
 }
