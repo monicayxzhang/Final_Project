@@ -34,9 +34,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClickListener {
-    private List<Chat> chats = new LinkedList<>();
+    private List<Message> chats = new LinkedList<>();
     private FirebaseAuth mAuth;
-    private Map<String, Chat> map = new HashMap<>();
+    private Map<String, Message> map = new HashMap<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -76,17 +76,15 @@ public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClic
     private void collectChats(DataSnapshot snapshot) {
         List<DataSnapshot> listSnapshot = reverseChildren(snapshot.getChildren());
         Set<String> userSetCur = new HashSet<>();
-        List<Chat> newChats = new LinkedList<>();
+        List<Message> newChats = new LinkedList<>();
         for (DataSnapshot chatSnapshot : listSnapshot) {
             String user = (String) chatSnapshot.child("recipient").getValue();
             if (!userSetCur.contains(user)) {
                 if (map.containsKey(user)) {
-                    newChats.add(new Chat(user, (String) chatSnapshot.child("message").getValue(),
-                            (Long) chatSnapshot.child("dateTime").getValue()));
+                    newChats.add(chatSnapshot.getValue(Message.class));
                     chats.remove(map.get(user));
                 } else {
-                    chats.add(new Chat(user, (String) chatSnapshot.child("message").getValue(),
-                            (Long) chatSnapshot.child("dateTime").getValue()));
+                    chats.add(chatSnapshot.getValue(Message.class));
                 }
                 userSetCur.add(user);
             }
@@ -103,7 +101,7 @@ public class ChatsFragment extends Fragment implements ChatViewHolder.OnItemClic
     }
 
     @Override
-    public void onItemClick(Chat chat) {
+    public void onItemClick(Message chat) {
         Intent intent = new Intent(getActivity(), MessageActivity.class);
         intent.putExtra("recipient", chat.recipient);
         startActivity(intent);
