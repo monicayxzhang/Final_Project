@@ -10,7 +10,9 @@
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/message_recipient.xml" value="0.133" />
         <entry key="app/src/main/res/drawable/message_sender.xml" value="0.211" />
+        <entry key="app/src/main/res/drawable/sparkle_icon.xml" value="0.133" />
         <entry key="app/src/main/res/layout/activity_edit_post.xml" value="0.21871762253270788" />
+        <entry key="app/src/main/res/layout/activity_forum.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1983695652173913" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1802536231884058" />
         <entry key="app/src/main/res/layout/activity_message.xml" value="0.1985494106980961" />
@@ -24,6 +26,9 @@
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1802536231884058" />
         <entry key="app/src/main/res/layout/item_chat.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.1985494106980961" />
+        <entry key="app/src/main/res/layout/item_post_comment.xml" value="0.1985494106980961" />
+        <entry key="app/src/main/res/layout/item_post_content.xml" value="0.21863403320312502" />
+        <entry key="app/src/main/res/layout/item_post_subcomment.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_recipient.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_sender.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.26145833333333335" />

@@ -5,33 +5,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalproject.MainActivity;
 import com.example.finalproject.R;
-import com.example.finalproject.SignInActivity;
+import com.example.finalproject.ui.chats.MessageActivity;
 import com.example.finalproject.ui.community.postrv.PostAdapter;
+import com.example.finalproject.ui.community.postrv.PostViewHolder;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommunityFragment extends Fragment {
+public class CommunityFragment extends Fragment implements PostViewHolder.OnItemClickListener {
     private List<Post> posts = new ArrayList<>();
 
     @Override
@@ -55,7 +51,7 @@ public class CommunityFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.rv_community);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        PostAdapter adapter = new PostAdapter(posts);
+        PostAdapter adapter = new PostAdapter(posts, this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),
@@ -97,6 +93,13 @@ public class CommunityFragment extends Fragment {
 
     private void editPost() {
         Intent intent = new Intent(getActivity(), EditPostActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(Post post) {
+        Intent intent = new Intent(getActivity(), ForumActivity.class);
+        intent.putExtra("postID", post.ID);
         startActivity(intent);
     }
 }

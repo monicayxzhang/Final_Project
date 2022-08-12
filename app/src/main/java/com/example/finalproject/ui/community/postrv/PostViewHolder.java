@@ -23,6 +23,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener {
+        void onItemClick(Post post);
+    }
+
     private TextView userTV;
     private TextView subjectTV;
     private TextView bodyTV;
@@ -36,7 +40,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         dateTimeTV = itemView.findViewById(R.id.item_post_dateTime);
     }
 
-    public void bind(Post post) {
+    public void bind(Post post, OnItemClickListener listener) {
         Query query = FirebaseDatabase.getInstance().getReference()
                 .child("users").orderByKey().equalTo(post.user);
         query.addValueEventListener(new ValueEventListener() {
@@ -57,5 +61,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd HH:mm");
         dateTimeTV.setText(formatter.format(new Date(post.dateTime)));
+
+        itemView.setOnClickListener(v -> listener.onItemClick(post));
     }
 }

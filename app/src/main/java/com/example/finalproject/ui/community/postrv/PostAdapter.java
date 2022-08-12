@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject.R;
@@ -13,9 +14,11 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
     private List<Post> posts;
+    private Fragment fragment;
 
-    public PostAdapter(List<Post> posts) {
+    public PostAdapter(List<Post> posts, Fragment fragment) {
         this.posts = posts;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -27,7 +30,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        holder.bind(posts.get(position));
+        holder.bind(posts.get(position), (PostViewHolder.OnItemClickListener) fragment);
     }
 
     @Override
