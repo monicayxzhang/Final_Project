@@ -59,18 +59,16 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
         adapter = new ForumAdapter(posts, this);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                //DividerItemDecoration.VERTICAL));
 
         commentET = findViewById(R.id.forum_comment_editText);
-        commentET.setVisibility(View.INVISIBLE);
 
         collectComments();
     }
 
     @Override
     public boolean onLongClick(Post post, View view) {
-        commentET.setVisibility(View.VISIBLE);
         commentET.setFocusable(true);
         commentET.setFocusableInTouchMode(true);
         if (commentET.requestFocus()) {
@@ -93,7 +91,6 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
                     InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     commentET.getText().clear();
-                    commentET.setVisibility(View.INVISIBLE);
                 }
                 return handled;
             }
@@ -110,7 +107,9 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
         map.put("dateTime", ServerValue.TIMESTAMP);
         map.put("likes", 0);
         map.put("postType", PostType.COMMENT.toString());
-        dbRef.child("comments").push().setValue(map);
+        String key = dbRef.child("comments").push().getKey();
+        map.put("commentID", key);
+        dbRef.child("comments").child(key).setValue(map);
 
     }
 
@@ -120,7 +119,6 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
         map.put("body", commentET.getText().toString());
         map.put("user", mAuth.getCurrentUser().getUid());
         map.put("dateTime", ServerValue.TIMESTAMP);
-        map.put("likes", 0);
         map.put("postType", PostType.SUBCOMMENT.toString());
         dbRef.child("subcomments").push().setValue(map);
     }
@@ -136,7 +134,11 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                if (snapshot.exists()) {
+                    posts.remove(0);
+                    posts.add(0, snapshot.getValue(Post.class));
+                    adapter.notifyItemChanged(0);
+                }
             }
 
             @Override
@@ -162,7 +164,6 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()) {
                     Post post = snapshot.getValue(Post.class);
-                    post.commentID = snapshot.getKey();
                     posts.add(post);
                     map.put(post.commentID, post);
                     collectSubComments(post.commentID);
@@ -172,7 +173,14 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                if (snapshot.exists()) {
+                    Post post = snapshot.getValue(Post.class);
+                    int index = posts.indexOf(map.get(post.commentID));
+                    posts.remove(index);
+                    posts.add(index, post);
+                    map.put(post.commentID, post);
+                    adapter.notifyItemChanged(index);
+                }
             }
 
             @Override
