@@ -35,13 +35,11 @@ public class CommentViewHolder extends ForumViewHolder {
     @Override
     void bind(Post post, ForumViewHolder.OnItemClickListener listener) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference()
-                .child("users").child(post.user);
+                .child("users").child(post.user).child("name");
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot userSnapshot: snapshot.getChildren()) {
-                    userTV.setText(userSnapshot.child("name").getValue(String.class));
-                }
+                userTV.setText(snapshot.getValue(String.class));
             }
 
             @Override
@@ -52,7 +50,7 @@ public class CommentViewHolder extends ForumViewHolder {
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
         dateTimeTV.setText(formatter.format(new Date(post.dateTime)));
         bodyTV.setText(post.body);
-        likesTV.setText(post.likes);
+        likesTV.setText(String.valueOf(post.likes));
 
         itemView.setOnLongClickListener(v -> listener.onLongClick(post, v));
     }
