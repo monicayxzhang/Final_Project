@@ -37,6 +37,7 @@ import java.util.Map;
 public class ForumActivity extends AppCompatActivity implements ForumViewHolder.OnItemClickListener {
     private String postID;
     private List<Post> posts = new LinkedList<>();
+    private Map<String, Post> map = new HashMap<>();
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
     private EditText commentET;
@@ -82,8 +83,17 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 boolean handled = false;
                 if (i == EditorInfo.IME_ACTION_SEND) {
-                    submitComment();
+                    if (post.postType == PostType.CONTENT) {
+                        submitComment();
+                    } else {
+                        submitSubComment(post);
+                    }
                     handled = true;
+
+                    InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    commentET.getText().clear();
+                    commentET.setVisibility(View.INVISIBLE);
                 }
                 return handled;
             }
@@ -94,13 +104,25 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
 
     private void submitComment() {
         Map<String, Object> map = new HashMap();
-        map.put("ID", postID);
+        map.put("postID", postID);
         map.put("body", commentET.getText().toString());
         map.put("user", mAuth.getCurrentUser().getUid());
         map.put("dateTime", ServerValue.TIMESTAMP);
         map.put("likes", 0);
         map.put("postType", PostType.COMMENT.toString());
         dbRef.child("comments").push().setValue(map);
+
+    }
+
+    private void submitSubComment(Post post) {
+        Map<String, Object> map = new HashMap();
+        map.put("commentID", post.commentID);
+        map.put("body", commentET.getText().toString());
+        map.put("user", mAuth.getCurrentUser().getUid());
+        map.put("dateTime", ServerValue.TIMESTAMP);
+        map.put("likes", 0);
+        map.put("postType", PostType.SUBCOMMENT.toString());
+        dbRef.child("subcomments").push().setValue(map);
     }
 
     public void getPostContent() {
@@ -135,11 +157,58 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
     }
 
     public void collectComments() {
-        dbRef.child("comments").orderByChild("ID").equalTo(postID).addChildEventListener(new ChildEventListener() {
+        dbRef.child("comments").orderByChild("postID").equalTo(postID).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                posts.add(snapshot.getValue(Post.class));
-                adapter.notifyDataSetChanged();
+                if (snapshot.exists()) {
+                    Post post = snapshot.getValue(Post.class);
+                    post.commentID = snapshot.getKey();
+                    posts.add(post);
+                    map.put(post.commentID, post);
+                    collectSubComments(post.commentID);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void collectSubComments(String commentID) {
+        dbRef.child("subcomments").orderByChild("commentID").equalTo(commentID)
+                .addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if (snapshot.exists()) {
+                    int index;
+                    Post post = snapshot.getValue(Post.class);
+                    if (previousChildName != null) {
+                        index = posts.indexOf(map.get(previousChildName));
+                    } else {
+                        index = posts.indexOf(map.get(commentID));
+                    }
+                    posts.add(index + 1, post);
+                    map.put(snapshot.getKey(), post);
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override

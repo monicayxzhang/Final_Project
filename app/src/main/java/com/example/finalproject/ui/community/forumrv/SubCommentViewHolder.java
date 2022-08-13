@@ -21,7 +21,6 @@ public class SubCommentViewHolder extends ForumViewHolder {
     private TextView userTV;
     private TextView dateTimeTV;
     private TextView bodyTV;
-    private TextView likesTV;
 
     public SubCommentViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -29,19 +28,16 @@ public class SubCommentViewHolder extends ForumViewHolder {
         userTV = itemView.findViewById(R.id.post_subcomment_user);
         dateTimeTV = itemView.findViewById(R.id.post_subcomment_dateTime);
         bodyTV = itemView.findViewById(R.id.post_subcomment_body);
-        likesTV = itemView.findViewById(R.id.post_subcomment_likes);
     }
 
     @Override
     void bind(Post post, ForumViewHolder.OnItemClickListener listener) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference()
-                .child("users").child(post.user);
+                .child("users").child(post.user).child("name");
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot userSnapshot: snapshot.getChildren()) {
-                    userTV.setText(userSnapshot.child("name").getValue(String.class));
-                }
+                userTV.setText(snapshot.getValue(String.class));
             }
 
             @Override
@@ -52,7 +48,6 @@ public class SubCommentViewHolder extends ForumViewHolder {
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
         dateTimeTV.setText(formatter.format(new Date(post.dateTime)));
         bodyTV.setText(post.body);
-        likesTV.setText(post.likes);
 
         itemView.setOnLongClickListener(v -> listener.onLongClick(post, v));
     }

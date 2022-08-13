@@ -99,7 +99,7 @@ public class CommunityFragment extends Fragment implements PostViewHolder.OnItem
     @Override
     public void onItemClick(Post post) {
         Intent intent = new Intent(getActivity(), ForumActivity.class);
-        intent.putExtra("postID", post.ID);
+        intent.putExtra("postID", post.postID);
         startActivity(intent);
     }
 }

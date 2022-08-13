@@ -35,6 +35,7 @@ public class MessageActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseSender;
     private DatabaseReference mDatabaseRecipient;
     private FirebaseAuth mAuth;
+    private RecyclerView recyclerView;
     private MessageAdapter adapter;
     private List<Message> messages = new LinkedList<>();
 
@@ -52,7 +53,7 @@ public class MessageActivity extends AppCompatActivity {
         recipientTV = findViewById(R.id.message_recipient);
         getRecipientName();
 
-        RecyclerView recyclerView = findViewById(R.id.message_rv);
+        recyclerView = findViewById(R.id.message_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -72,6 +73,7 @@ public class MessageActivity extends AppCompatActivity {
         map.put("recipient", mAuth.getCurrentUser().getUid());
         map.put("status", MessageStatus.RECEIVED.toString());
         mDatabaseRecipient.push().setValue(map);
+        messageTV.getText().clear();
     }
 
     public void goBack(View view) {
@@ -103,6 +105,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()) {
                     messages.add(snapshot.getValue(Message.class));
+                    recyclerView.scrollToPosition(messages.size() - 1);
                     adapter.notifyDataSetChanged();
                 }
             }
