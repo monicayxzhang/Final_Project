@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.201" />
+        <entry key="app/src/main/res/drawable/community_search_menu.xml" value="0.133" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.201" />
@@ -19,6 +20,7 @@
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.1983695652173913" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.13229166666666667" />
+        <entry key="app/src/main/res/layout/fragment_activities.xml" value="0.20081595648232095" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/fragment_community.xml" value="0.125" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1802536231884058" />
@@ -32,6 +34,8 @@
         <entry key="app/src/main/res/layout/item_post_subcomment.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_recipient.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_sender.xml" value="0.1985494106980961" />
+        <entry key="app/src/main/res/layout/item_tag.xml" value="0.20081595648232095" />
+        <entry key="app/src/main/res/layout/nav_search_menu.xml" value="0.1085934159897392" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.26145833333333335" />
         <entry key="app/src/main/res/menu/toolbar_community_menu.xml" value="0.13229166666666667" />
       </map>

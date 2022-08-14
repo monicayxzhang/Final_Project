@@ -111,7 +111,7 @@ public class ContentViewHolder extends ForumViewHolder {
 //            }
 //        });
 
-        dbRef.child("tags").child(post.postID).addChildEventListener(new ChildEventListener() {
+        dbRef.child("postTags").child(post.postID).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()) {
