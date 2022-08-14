@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/layout/item_post.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_post_comment.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_post_content.xml" value="0.21863403320312502" />
+        <entry key="app/src/main/res/layout/item_post_content_tag.xml" value="0.19867706298828144" />
         <entry key="app/src/main/res/layout/item_post_subcomment.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_recipient.xml" value="0.1985494106980961" />
         <entry key="app/src/main/res/layout/item_sender.xml" value="0.1985494106980961" />
