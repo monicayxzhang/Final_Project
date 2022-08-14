@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,12 +7,60 @@
     tools:context=".ui.account.AccountFragment">
 
     <TextView
-        android:id="@+id/user_email"
+        android:id="@+id/account_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="email"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@id/profile_pic_cardview"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        android:text="username"
+        android:textColor="#000000"
+        android:textSize="24sp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profile_pic_cardview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        android:contentDescription="change the profile picture"
+        android:elevation="10dp"
+        app:cardCornerRadius="20dp">
+
+        <ImageView
+            android:id="@+id/account_profile_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_pic" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/account_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account_username"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@id/profile_pic_cardview"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/account_signout"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="Sign Out" />
+
+</RelativeLayout>

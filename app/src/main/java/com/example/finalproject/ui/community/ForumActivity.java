@@ -59,8 +59,8 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
         adapter = new ForumAdapter(posts, this);
         recyclerView.setAdapter(adapter);
 
-        //recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                //DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
 
         commentET = findViewById(R.id.forum_comment_editText);
 
