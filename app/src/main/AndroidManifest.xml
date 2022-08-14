@@ -16,13 +16,14 @@
         <activity
             android:name=".ui.community.ForumActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.chats.MessageActivity"
             android:exported="false" />
         <activity
             android:name=".ui.community.EditPostActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".SignInActivity"
             android:exported="false" />

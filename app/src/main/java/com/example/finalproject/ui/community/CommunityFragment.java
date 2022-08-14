@@ -69,15 +69,15 @@ public class CommunityFragment extends Fragment implements PostViewHolder.OnItem
 //        activity.getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_sort_by_size);
 //        activity.getSupportActionBar().setTitle("");
         toolbar.inflateMenu(R.menu.toolbar_community_menu);
-//        toolbar.setOnMenuItemClickListener(item -> {
-//            switch (item.getItemId()) {
-//                case R.id.toolbar_community_post:
-//                    editPost();
-//                    return true;
-//                default:
-//                    return false;
-//            }
-//        });
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.toolbar_community_post:
+                    editPost();
+                    return true;
+                default:
+                    return false;
+            }
+        });
         ImageButton searchMenu = view.findViewById(R.id.community_search_menu);
         drawerLayout = view.findViewById(R.id.community_drawer_layout);
         searchMenu.setOnClickListener(new View.OnClickListener() {

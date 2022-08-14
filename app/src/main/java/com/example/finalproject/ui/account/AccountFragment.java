@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.finalproject.R;
 import com.example.finalproject.SignInActivity;
+import com.example.finalproject.SignUpActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -95,7 +96,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private void signOut() {
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(getActivity(), SignInActivity.class);
+        Intent intent = new Intent(getActivity(), SignUpActivity.class);
         startActivity(intent);
     }
 
