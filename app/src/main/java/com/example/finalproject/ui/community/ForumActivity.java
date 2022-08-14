@@ -137,7 +137,8 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
                 if (snapshot.exists()) {
                     posts.remove(0);
                     posts.add(0, snapshot.getValue(Post.class));
-                    adapter.notifyItemChanged(0);
+                    adapter.notifyDataSetChanged();
+                    //adapter.notifyItemChanged(0);
                 }
             }
 
@@ -179,7 +180,8 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
                     posts.remove(index);
                     posts.add(index, post);
                     map.put(post.commentID, post);
-                    adapter.notifyItemChanged(index);
+                    adapter.notifyDataSetChanged();
+                    //adapter.notifyItemChanged(index);
                 }
             }
 

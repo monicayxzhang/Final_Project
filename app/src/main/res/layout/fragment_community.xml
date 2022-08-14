@@ -55,34 +55,60 @@
         android:layout_gravity="start"
         android:visibility="visible">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/community_search_menu_toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/community_apply"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Tags"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_above="@id/community_clear"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:text="Apply" />
 
-        </androidx.appcompat.widget.Toolbar>
+            <Button
+                android:id="@+id/community_clear"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
+                android:text="Clear" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/community_tag_rv"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/community_search_menu_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Tags"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/community_tag_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/community_apply"
+                android:layout_marginTop="?attr/actionBarSize" />
+
+        </RelativeLayout>
 
     </com.google.android.material.navigation.NavigationView>
 

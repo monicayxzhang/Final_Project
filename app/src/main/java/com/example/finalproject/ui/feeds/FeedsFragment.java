@@ -16,8 +16,6 @@ public class FeedsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        FeedsViewModel feedsViewModel =
-                new ViewModelProvider(this).get(FeedsViewModel.class);
         return inflater.inflate(R.layout.fragment_feeds, container, false);
     }
 

@@ -11,9 +11,9 @@ import com.example.finalproject.R;
 import java.util.List;
 
 public class TagCheckboxAdapter extends RecyclerView.Adapter<TagCheckboxViewHolder> {
-    private List<String> tags;
+    private List<TagCheckbox> tags;
 
-    public TagCheckboxAdapter(List<String> tags) {
+    public TagCheckboxAdapter(List<TagCheckbox> tags) {
         this.tags = tags;
     }
 

@@ -18,12 +18,6 @@
         tools:layout="@layout/fragment_community" />
 
     <fragment
-        android:id="@+id/navigation_activities"
-        android:name="com.example.finalproject.ui.activities.ActivitiesFragment"
-        android:label="@string/activities"
-        tools:layout="@layout/fragment_activities" />
-
-    <fragment
         android:id="@+id/navigation_chats"
         android:name="com.example.finalproject.ui.chats.ChatsFragment"
         android:label="@string/chats"
