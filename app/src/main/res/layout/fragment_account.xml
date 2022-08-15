@@ -41,6 +41,131 @@
 
     </androidx.cardview.widget.CardView>
 
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/account_achievements_posts"
+        android:layout_width="350dp"
+        android:layout_height="85dp"
+        android:layout_below="@id/profile_pic_cardview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/yellow_light"
+        android:elevation="20dp"
+        app:cardCornerRadius="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/posts_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:text="100"
+                android:textColor="@color/yellow_darker"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/posts_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="100dp"
+                android:layout_marginBottom="25dp"
+                android:text="posts"
+                android:textColor="@color/yellow_darker"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/beats_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="160dp"
+                android:layout_marginBottom="25dp"
+                android:text="Beats"
+                android:textColor="@color/yellow_darker"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/posts_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="215dp"
+                android:text="99.9%"
+                android:textColor="@color/yellow_darker"
+                android:textSize="34sp" />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/account_achievements_sparkles"
+        android:layout_width="350dp"
+        android:layout_height="85dp"
+        android:layout_below="@id/account_achievements_posts"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/yellow_light"
+        android:elevation="20dp"
+        app:cardCornerRadius="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/sparkles_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:text="100"
+                android:textColor="@color/yellow_darker"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/sparkles_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="100dp"
+                android:layout_marginBottom="25dp"
+                android:text="likes"
+                android:textColor="@color/yellow_darker"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/beats_text_sparkles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="160dp"
+                android:layout_marginBottom="25dp"
+                android:text="Beats"
+                android:textColor="@color/yellow_darker"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/sparkles_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="215dp"
+                android:text="99.9%"
+                android:textColor="@color/yellow_darker"
+                android:textSize="34sp" />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/account_email"
         android:layout_width="wrap_content"

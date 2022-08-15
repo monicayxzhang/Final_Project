@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.finalproject.R;
 import com.example.finalproject.SignInActivity;
 import com.example.finalproject.SignUpActivity;
+import com.example.finalproject.ui.community.Post;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,6 +41,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private TextView usernameTV;
     private TextView emailTV;
     private ImageView profilePicIV;
+    private TextView postsCount;
+    private TextView postsPercent;
+    private TextView likesCount;
+    private TextView likesPercent;
+    int postsN;
+    int likesN;
     private Button signOut;
     private ActivityResultLauncher<Intent> ImageResultLauncher;
     private DatabaseReference dbRef;
@@ -51,15 +58,21 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
+        dbRef = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
         usernameTV = view.findViewById(R.id.account_username);
         usernameTV.setText(user.getDisplayName());
         emailTV = view.findViewById(R.id.account_email);
         emailTV.setText(user.getEmail());
+
+        postsCount = view.findViewById(R.id.posts_count);
+        postsPercent = view.findViewById(R.id.posts_percent);
+        likesCount = view.findViewById(R.id.sparkles_count);
+        likesPercent = view.findViewById(R.id.sparkles_percent);
+        Count();
+
         signOut = view.findViewById(R.id.account_signout);
         signOut.setOnClickListener(this);
-
-        dbRef = FirebaseDatabase.getInstance().getReference();
 
         profilePicIV = view.findViewById(R.id.account_profile_pic);
         profilePicIV.setOnClickListener(this);
@@ -98,6 +111,28 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getActivity(), SignUpActivity.class);
         startActivity(intent);
+    }
+
+    private void Count() {
+        postsN = 0;
+        likesN = 0;
+        dbRef.child("posts")
+                .orderByChild("user").equalTo(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            postsN += 1;
+                            likesN += postSnapshot.getValue(Post.class).likes;
+                        }
+                        postsCount.setText(String.valueOf(postsN));
+                        likesCount.setText(String.valueOf(likesN));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     @Override
