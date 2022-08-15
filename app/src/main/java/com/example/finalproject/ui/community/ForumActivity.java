@@ -41,6 +41,7 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
     private EditText commentET;
+    private RecyclerView recyclerView;
     private ForumAdapter adapter;
 
     @Override
@@ -54,7 +55,7 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
         mAuth = FirebaseAuth.getInstance();
         getPostContent();
 
-        RecyclerView recyclerView = findViewById(R.id.forum_rv);
+        recyclerView = findViewById(R.id.forum_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ForumAdapter(posts, this);
         recyclerView.setAdapter(adapter);
@@ -69,6 +70,7 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
 
     @Override
     public boolean onLongClick(Post post, View view) {
+        recyclerView.smoothScrollToPosition(posts.indexOf(post));
         commentET.setFocusable(true);
         commentET.setFocusableInTouchMode(true);
         if (commentET.requestFocus()) {

@@ -46,9 +46,9 @@ import java.util.List;
 import java.util.Set;
 
 public class CommunityFragment extends Fragment implements PostViewHolder.OnItemClickListener, View.OnClickListener {
-    private List<Post> posts = new ArrayList<>();
-    private List<Post> selectedPosts = new LinkedList<>();
-    private List<TagCheckbox> tags = new LinkedList<>();
+    private List<Post> posts;
+    private List<Post> selectedPosts;
+    private List<TagCheckbox> tags;
     private DatabaseReference mDatabase;
     private RecyclerView postRV;
     private PostAdapter postAdapter;
@@ -60,6 +60,10 @@ public class CommunityFragment extends Fragment implements PostViewHolder.OnItem
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_community, container, false);
+
+        posts = new ArrayList<>();
+        selectedPosts = new LinkedList<>();
+        tags = new LinkedList<>();
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar_community);
 

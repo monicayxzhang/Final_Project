@@ -1,5 +1,7 @@
 package com.example.finalproject.ui.community.forumrv;
 
+import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject.R;
 import com.example.finalproject.ui.chats.Message;
+import com.example.finalproject.ui.chats.MessageActivity;
 import com.example.finalproject.ui.community.Post;
 import com.example.finalproject.ui.community.tagrv.TagAdapter;
 import com.google.firebase.database.ChildEventListener;
@@ -54,7 +57,7 @@ public class ContentViewHolder extends ForumViewHolder {
     }
 
     @Override
-    void bind(Post post, ForumViewHolder.OnItemClickListener listener) {
+    void bind(Post post, Context context) {
         dbRef.child("users").child(post.user).child("name").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -66,6 +69,15 @@ public class ContentViewHolder extends ForumViewHolder {
 
             }
         });
+        userTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("recipient", post.user);
+                context.startActivity(intent);
+            }
+        });
+
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
         dateTimeTV.setText(formatter.format(new Date(post.dateTime)));
         subjectTV.setText(post.subject);
@@ -142,6 +154,7 @@ public class ContentViewHolder extends ForumViewHolder {
             }
         });
 
+        OnItemClickListener listener = (OnItemClickListener) context;
         itemView.setOnLongClickListener(v -> listener.onLongClick(post, v));
     }
 }

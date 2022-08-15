@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.community.forumrv;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,7 +32,7 @@ public class SubCommentViewHolder extends ForumViewHolder {
     }
 
     @Override
-    void bind(Post post, ForumViewHolder.OnItemClickListener listener) {
+    void bind(Post post, Context context) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(post.user).child("name");
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -49,6 +50,7 @@ public class SubCommentViewHolder extends ForumViewHolder {
         dateTimeTV.setText(formatter.format(new Date(post.dateTime)));
         bodyTV.setText(post.body);
 
+        OnItemClickListener listener = (OnItemClickListener) context;
         itemView.setOnLongClickListener(v -> listener.onLongClick(post, v));
     }
 }

@@ -1,5 +1,7 @@
 package com.example.finalproject.ui.community.forumrv;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.finalproject.R;
 import com.example.finalproject.ui.chats.Message;
+import com.example.finalproject.ui.chats.MessageActivity;
 import com.example.finalproject.ui.community.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +39,7 @@ public class CommentViewHolder extends ForumViewHolder {
     }
 
     @Override
-    void bind(Post post, ForumViewHolder.OnItemClickListener listener) {
+    void bind(Post post, Context context) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(post.user).child("name");
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -50,6 +53,15 @@ public class CommentViewHolder extends ForumViewHolder {
 
             }
         });
+        userTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("recipient", post.user);
+                context.startActivity(intent);
+            }
+        });
+
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
         dateTimeTV.setText(formatter.format(new Date(post.dateTime)));
         bodyTV.setText(post.body);
@@ -75,6 +87,7 @@ public class CommentViewHolder extends ForumViewHolder {
             }
         });
 
+        OnItemClickListener listener = (OnItemClickListener) context;
         itemView.setOnLongClickListener(v -> listener.onLongClick(post, v));
     }
 }

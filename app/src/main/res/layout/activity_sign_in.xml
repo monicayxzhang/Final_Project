@@ -36,24 +36,13 @@
         android:id="@+id/sign_in_button"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="200dp"
         android:onClick="signIn"
         android:text="Sign In"
-        app:layout_constraintBottom_toTopOf="@+id/forget_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_edittext_in" />
-
-    <TextView
-        android:id="@+id/forget_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:text="Forget password?"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
+        app:layout_constraintTop_toBottomOf="@+id/password_edittext_in" />
 
     <TextView
         android:id="@+id/back_text"

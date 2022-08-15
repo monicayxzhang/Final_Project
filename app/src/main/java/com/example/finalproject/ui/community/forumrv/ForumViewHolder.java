@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.community.forumrv;
 
+import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -18,5 +19,5 @@ public abstract class ForumViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    abstract void bind(Post post, OnItemClickListener listener);
+    abstract void bind(Post post, Context context);
 }

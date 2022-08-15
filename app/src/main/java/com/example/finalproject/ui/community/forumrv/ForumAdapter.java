@@ -58,7 +58,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ForumViewHolder holder, int position) {
-        holder.bind(posts.get(position), (ForumViewHolder.OnItemClickListener) context);
+        holder.bind(posts.get(position), context);
     }
 
     @Override
