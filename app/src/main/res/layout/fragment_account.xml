@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="215dp"
-                android:text="99.9%"
+                android:text="0.0%"
                 android:textColor="@color/yellow_darker"
                 android:textSize="34sp" />
 
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="215dp"
-                android:text="99.9%"
+                android:text="0.0%"
                 android:textColor="@color/yellow_darker"
                 android:textSize="34sp" />
 

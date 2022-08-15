@@ -37,6 +37,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+
 public class AccountFragment extends Fragment implements View.OnClickListener {
     private TextView usernameTV;
     private TextView emailTV;
@@ -45,8 +47,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private TextView postsPercent;
     private TextView likesCount;
     private TextView likesPercent;
-    int postsN;
-    int likesN;
+    int beatenPostsN;
+    int beatenLikesN;
+    int totalUsers;
     private Button signOut;
     private ActivityResultLauncher<Intent> ImageResultLauncher;
     private DatabaseReference dbRef;
@@ -69,7 +72,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         postsPercent = view.findViewById(R.id.posts_percent);
         likesCount = view.findViewById(R.id.sparkles_count);
         likesPercent = view.findViewById(R.id.sparkles_percent);
-        Count();
+        count();
+        calPercent();
 
         signOut = view.findViewById(R.id.account_signout);
         signOut.setOnClickListener(this);
@@ -113,26 +117,58 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         startActivity(intent);
     }
 
-    private void Count() {
-        postsN = 0;
-        likesN = 0;
-        dbRef.child("posts")
-                .orderByChild("user").equalTo(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                            postsN += 1;
-                            likesN += postSnapshot.getValue(Post.class).likes;
-                        }
-                        postsCount.setText(String.valueOf(postsN));
-                        likesCount.setText(String.valueOf(likesN));
-                    }
+    private void count() {
+        dbRef.child("users").child(user.getUid()).child("postsCount").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postsCount.setText(String.valueOf(snapshot.getValue(Integer.class)));
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        dbRef.child("users").child(user.getUid()).child("likesCount").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                likesCount.setText(String.valueOf(snapshot.getValue(Integer.class)));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void calPercent() {
+        totalUsers = 0;
+        beatenPostsN = 0;
+        beatenLikesN = 0;
+        dbRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    if (userSnapshot.child("postsCount").getValue(Integer.class) < Integer.parseInt((String) postsCount.getText())) {
+                        beatenPostsN += 1;
                     }
-                });
+                    if (userSnapshot.child("likesCount").getValue(Integer.class) < Integer.parseInt((String) likesCount.getText())) {
+                        beatenLikesN += 1;
+                    }
+                    totalUsers += 1;
+                }
+                DecimalFormat percentFormat= new DecimalFormat("#.#%");
+                postsPercent.setText(percentFormat.format((beatenPostsN * 1.0) / totalUsers));
+                likesPercent.setText(percentFormat.format((beatenLikesN * 1.0) / totalUsers));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

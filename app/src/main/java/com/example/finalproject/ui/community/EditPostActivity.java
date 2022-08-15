@@ -20,7 +20,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.Transaction;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -103,6 +105,22 @@ public class EditPostActivity extends AppCompatActivity {
                 mDatabase.child("postTags").child(postID).child(tagCheckbox.tag).setValue(tagCheckbox.tag);
             }
         }
+
+        mDatabase.child("users").child(mAuth.getCurrentUser().getUid())
+                .child("postsCount").runTransaction(new Transaction.Handler() {
+                    @NonNull
+                    @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                        Integer postsCount = currentData.getValue(Integer.class);
+                        currentData.setValue(postsCount + 1);
+                        return Transaction.success(currentData);
+                    }
+
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+                    }
+                });
 
         finish();
     }

@@ -4,14 +4,16 @@ import android.net.Uri;
 
 public class User {
     public String name;
-    public String profilePic;
+    public int postsCount;
+    public int likesCount;
 
     public User() {
 
     }
 
-    public User(String name, String profilePic) {
+    public User(String name, int postsCount, int likesCount) {
         this.name = name;
-        this.profilePic = profilePic;
+        this.postsCount = postsCount;
+        this.likesCount = likesCount;
     }
 }

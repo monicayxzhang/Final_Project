@@ -60,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateName(user);
                             mDatabase.child("users").child(user.getUid()).setValue(
-                                    new User(name.getText().toString(), "1"));
+                                    new User(name.getText().toString(), 0, 0));
                             startMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.

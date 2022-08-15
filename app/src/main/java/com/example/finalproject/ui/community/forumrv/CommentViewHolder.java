@@ -76,6 +76,21 @@ public class CommentViewHolder extends ForumViewHolder {
                             public Transaction.Result doTransaction(@NonNull MutableData currentData) {
                                 Integer likes = currentData.getValue(Integer.class);
                                 currentData.setValue(likes + 1);
+                                dbRef.child("users").child(post.user)
+                                        .child("likesCount").runTransaction(new Transaction.Handler() {
+                                            @NonNull
+                                            @Override
+                                            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                                                Integer likesCount = currentData.getValue(Integer.class);
+                                                currentData.setValue(likesCount + 1);
+                                                return Transaction.success(currentData);
+                                            }
+
+                                            @Override
+                                            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+
+                                            }
+                                        });
                                 return Transaction.success(currentData);
                             }
 

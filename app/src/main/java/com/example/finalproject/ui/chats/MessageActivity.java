@@ -6,13 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.finalproject.R;
 import com.example.finalproject.ui.chats.messagerv.MessageAdapter;
+import com.example.finalproject.ui.community.PostType;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +50,7 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
         messageTV = findViewById(R.id.message_editText);
+
         mAuth = FirebaseAuth.getInstance();
         mDatabaseSender = FirebaseDatabase.getInstance().getReference().child("chats")
                 .child(mAuth.getCurrentUser().getUid());
@@ -61,9 +67,23 @@ public class MessageActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         collectMessages();
+
+        messageTV.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                boolean handled = false;
+                if (i == EditorInfo.IME_ACTION_SEND) {
+                    sentMessage();
+                    handled = true;
+
+                    messageTV.getText().clear();
+                }
+                return handled;
+            }
+        });
     }
 
-    public void sentMessage(View view) {
+    private void sentMessage() {
         Map<String, Object> map = new HashMap();
         map.put("recipient", recipientID);
         map.put("text", messageTV.getText().toString());

@@ -182,8 +182,8 @@ public class ForumActivity extends AppCompatActivity implements ForumViewHolder.
                     posts.remove(index);
                     posts.add(index, post);
                     map.put(post.commentID, post);
-                    adapter.notifyDataSetChanged();
-                    //adapter.notifyItemChanged(index);
+                    //adapter.notifyDataSetChanged();
+                    adapter.notifyItemChanged(index);
                 }
             }
 
